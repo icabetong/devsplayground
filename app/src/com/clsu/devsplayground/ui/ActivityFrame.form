@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.clsu.devsplayground.ui.ActivityFrame">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="empty" title-justification="1" title-position="3">
+      <font name="Slate For OnePlus" size="18"/>
+      <title-color color="-7367774"/>
+      <size top="16" left="16" bottom="16" right="16"/>
+    </border>
+    <children>
+      <grid id="3b888" binding="childPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="empty">
+          <size top="16" left="16" bottom="16" right="16"/>
+        </border>
+        <children>
+          <grid id="c8344" binding="answerPanel" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="empty">
+              <size top="16" left="0" bottom="0" right="0"/>
+            </border>
+            <children>
+              <component id="192f4" class="javax.swing.JButton" binding="fourthButton">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Slate For OnePlus"/>
+                  <text value="Response 4"/>
+                </properties>
+              </component>
+              <component id="bd954" class="javax.swing.JButton" binding="fifthButton">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Slate For OnePlus"/>
+                  <text value="Response 5"/>
+                </properties>
+              </component>
+              <component id="29a41" class="javax.swing.JButton" binding="sixthButton">
+                <constraints>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Slate For OnePlus"/>
+                  <text value="Response 6"/>
+                </properties>
+              </component>
+              <component id="72851" class="javax.swing.JButton" binding="firstButton">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Slate For OnePlus"/>
+                  <text value="Response 1"/>
+                </properties>
+              </component>
+              <component id="56282" class="javax.swing.JButton" binding="secondButton">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Slate For OnePlus"/>
+                  <text value="Response 2"/>
+                </properties>
+              </component>
+              <component id="1a4af" class="javax.swing.JButton" binding="thirdButton">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Slate For OnePlus"/>
+                  <text value="Response 3"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="8154" class="javax.swing.JLabel" binding="questionLabel">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <font name="Hack" size="14"/>
+              <text value="Question goes here"/>
+            </properties>
+          </component>
+          <component id="ec145" class="javax.swing.JLabel" binding="instructionLabel">
+            <constraints border-constraint="North"/>
+            <properties>
+              <font name="Slate For OnePlus" size="16" style="1"/>
+              <text value="Instruction"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="d67bf" class="javax.swing.JButton" binding="backButton">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <font name="Slate For OnePlus"/>
+          <text value="Go Back"/>
+        </properties>
+      </component>
+      <component id="a8718" class="javax.swing.JButton" binding="resetButton">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Slate For OnePlus"/>
+          <text value="Reset"/>
+        </properties>
+      </component>
+      <hspacer id="f6cfb">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+    </children>
+  </grid>
+</form>
