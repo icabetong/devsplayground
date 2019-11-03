@@ -4,35 +4,43 @@ import com.clsu.devsplayground.core.Localization;
 import com.clsu.devsplayground.core.components.CoreFrame;
 import com.clsu.devsplayground.core.database.support.LanguageDatabase;
 import com.clsu.devsplayground.core.objects.Activity;
+import sas.swing.plaf.MultiLineLabelUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ActivityFrame extends CoreFrame implements ActionListener {
 
+    private String userID;
     private String subjectKey;
     private LanguageDatabase database;
 
-    private int requiredResponses;
-    private int itemClicks;
+    private int score = 0;
+    private int itemsShown = 0;
     private String[] correctResponses;
     private ArrayList<String> responses = new ArrayList<>();
     private Activity currentActivity;
 
-    public ActivityFrame(JFrame ancestorFrame, String subjectKey){
+    private static final int numberOfActivities = 10;
+
+    public ActivityFrame(JFrame ancestorFrame, String userID, String subjectKey){
         super(ancestorFrame);
         setContentPane(rootPanel);
         setSize(new Dimension(850, 600));
         setResizable(false);
 
+        this.userID = userID;
         this.subjectKey = subjectKey;
+
         database = new LanguageDatabase();
         database.connect();
+
+        questionLabel.setUI(MultiLineLabelUI.labelUI);
 
         backButton.addActionListener(this);
         resetButton.addActionListener(this);
@@ -47,6 +55,32 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
         obtainAssets();
     }
 
+    private void validateResponses(){
+
+        ArrayList<String> correctResponsesList = new ArrayList<>(Arrays.asList(correctResponses));
+
+        int totalResponsesSize = responses.size();
+        int totalCorrectResponsesSize = correctResponsesList.size();
+
+        if (totalCorrectResponsesSize == totalResponsesSize){
+            if (correctResponsesList.containsAll(responses)){
+                score++;
+                JOptionPane.showMessageDialog(this, Localization.DIALOG_ACTIVITY_FINISHED);
+
+                obtainAssets();
+            } else {
+                score--;
+                JOptionPane.showMessageDialog(this, Localization.DIALOG_ACTIVITY_WRONG);
+            }
+            if (itemsShown == numberOfActivities){
+                CompletedFrame complete = new CompletedFrame(this, userID, subjectKey, score);
+                complete.invoke();
+                reset();
+                this.setVisible(false);
+            }
+        }
+    }
+
     private void obtainAssets(){
         try {
             currentActivity = database.getRandom(subjectKey);
@@ -57,30 +91,30 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
             keywordDatabase.connect(LanguageDatabase.DATABASE_RESERVED);
             JButton[] buttons = { firstButton, secondButton, thirdButton, fourthButton,
                     fifthButton, sixthButton };
-            String[] correctItems = currentActivity.getAnswerArray();
-            int[] indexes = { 0, 1, 2, 3, 4, 5};
-            Random random = new Random();
-            int[] randomIndexes = new int[answerSize];
-            for (int i = 0; i < answerSize; i++)
-                randomIndexes[i] = indexes[random.nextInt(indexes.length)];
+            ArrayList<String> responses = new ArrayList<>(6);
+            responses.addAll(Arrays.asList(correctResponses));
+            responses.addAll(keywordDatabase.generateChoices(subjectKey, answerSize));
+            Collections.shuffle(responses);
 
-            ArrayList<String> choices = new ArrayList<>(keywordDatabase.generateChoices(subjectKey, answerSize));
-            for (int j = 0; j < answerSize; j++)
-                choices.add(randomIndexes[j], correctItems[j]);
+            for (int i = 0; i < buttons.length; i++){
+                buttons[i].setText(responses.get(i));
+            }
 
-            for (int k = 0; k < choices.size(); k++)
-                buttons[k].setText(choices.get(k));
-
+            itemsShown++;
             setActivityAssets();
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            System.out.println(currentActivity.getId());
+            ex.printStackTrace();
+
             JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
+            back();
+            this.dispose();
         }
     }
 
     private void setActivityAssets() {
         try {
             if (currentActivity != null){
-
                 instructionLabel.setText(currentActivity.getInstruction());
                 switch (responses.size()){
                     case 0:
@@ -102,7 +136,10 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
             }
         } catch (Exception e) {
             e.printStackTrace();
+
             JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
+            back();
+            this.dispose();
         }
     }
 
@@ -112,49 +149,58 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
             if (responses.size() < currentActivity.getAnswerArray().length) {
                 responses.add(firstButton.getText());
                 setActivityAssets();
-            } else responses.clear();
+
+                validateResponses();
+            } else reset();
         } else if (e.getSource() == secondButton){
             if (responses.size() < currentActivity.getAnswerArray().length) {
                 responses.add(secondButton.getText());
                 setActivityAssets();
-            } else responses.clear();
+
+                validateResponses();
+            } else reset();
         } else if (e.getSource() == thirdButton) {
             if (responses.size() < currentActivity.getAnswerArray().length) {
                 responses.add(thirdButton.getText());
                 setActivityAssets();
-            } else responses.clear();
+
+                validateResponses();
+            } else reset();
         } else if (e.getSource() == fourthButton) {
             if (responses.size() < currentActivity.getAnswerArray().length) {
                 responses.add(fourthButton.getText());
                 setActivityAssets();
-            } else responses.clear();
+
+                validateResponses();
+            } else reset();
         } else if (e.getSource() == fifthButton){
             if (responses.size() < currentActivity.getAnswerArray().length) {
                 responses.add(fifthButton.getText());
                 setActivityAssets();
-            } else responses.clear();
+
+                validateResponses();
+            } else reset();
         } else if (e.getSource() == sixthButton) {
             if (responses.size() < currentActivity.getAnswerArray().length) {
                 responses.add(sixthButton.getText());
                 setActivityAssets();
-            } else responses.clear();
+
+                validateResponses();
+            } else reset();
         } else if (e.getSource() == backButton) {
             back();
         } else if (e.getSource() == resetButton) {
-            setActivityAssets();
-            responses.clear();
+            reset();
         }
     }
 
-    private boolean contains(String[] ar, String a){
-        for (String s: ar)
-            if (s.equals(a)) return true;
-        return false;
+    private void reset(){
+        responses.clear();
+        setActivityAssets();
     }
 
     private JPanel rootPanel;
     private JPanel childPanel;
-    private JPanel answerPanel;
     private JLabel questionLabel;
     private JButton fourthButton;
     private JButton fifthButton;
@@ -165,5 +211,6 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
     private JLabel instructionLabel;
     private JButton backButton;
     private JButton resetButton;
+    private JPanel answerPanel;
 
 }

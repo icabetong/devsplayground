@@ -24,7 +24,7 @@ public class AccountDatabase extends SQLiteDatabase {
         executeSQL(insertQuery);
     }
 
-    public void changeName(String username, String userID) throws Exception {
+    public void changeUsername(String username, String userID) throws Exception {
         String updateQuery = String.format("UPDATE users SET username = '%s' WHERE userID = '%s'", username, userID);
 
         executeSQL(updateQuery);

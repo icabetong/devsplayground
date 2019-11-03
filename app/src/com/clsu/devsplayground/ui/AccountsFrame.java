@@ -94,7 +94,7 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
 
             if (currentAccount != null && username != null) {
                 try {
-                    database.changeName(username, currentAccount.getUserID());
+                    database.changeUsername(username, currentAccount.getUserID());
                     database.endTransaction();
 
                     initialize();

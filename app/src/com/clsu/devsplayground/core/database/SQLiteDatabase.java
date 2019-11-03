@@ -56,7 +56,7 @@ public class SQLiteDatabase {
             throw new SQLException("Database not opened yet");
     }
 
-    public ResultSet retrieveResults(String command) throws SQLException {
+    protected ResultSet retrieveResults(String command) throws SQLException {
         ResultSet result;
         if (databaseOpened){
             Statement retrievalStatement = connection.createStatement();

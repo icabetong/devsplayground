@@ -47,7 +47,6 @@ public class LanguagesFrame extends CoreFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         try {
             if (accountDatabase.isDatabaseOpened())
                 accountDatabase.disconnect();
@@ -59,7 +58,7 @@ public class LanguagesFrame extends CoreFrame implements ActionListener {
         else if (e.getSource() == htmlButton) key = LanguageDatabase.KEY_HTML_LANGUAGE;
         else if (e.getSource() == androidButton) key = LanguageDatabase.KEY_ANDROID_LANGUAGE;
 
-        ActivityFrame activityForm = new ActivityFrame(this, key);
+        ActivityFrame activityForm = new ActivityFrame(this, currentAccount.getUserID(), key);
         activityForm.invoke();
         this.setVisible(false);
     }

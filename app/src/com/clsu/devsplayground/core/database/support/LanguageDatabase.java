@@ -31,7 +31,7 @@ public class LanguageDatabase extends SQLiteDatabase {
     }
 
     public ArrayList<String> generateChoices(String lang, int number) throws Exception {
-        String randomString = String.format("SELECT * FROM %s ORDER BY RANDOM() LIMIT %d", lang, 6 - number);
+        String randomString = String.format("SELECT * FROM %s ORDER BY RANDOM() LIMIT %d", lang, 5 - number);
 
         ResultSet resultSet = retrieveResults(randomString);
         ArrayList<String> result = new ArrayList<>();

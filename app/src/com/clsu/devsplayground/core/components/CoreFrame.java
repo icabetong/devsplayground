@@ -3,6 +3,7 @@ package com.clsu.devsplayground.core.components;
 import com.clsu.devsplayground.core.Localization;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class CoreFrame extends JFrame {
 
@@ -10,8 +11,10 @@ public class CoreFrame extends JFrame {
 
     public CoreFrame(JFrame ancestorFrame) {
         super(Localization.TITLE_GENERIC);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.ancestorFrame = ancestorFrame;
     }
 
