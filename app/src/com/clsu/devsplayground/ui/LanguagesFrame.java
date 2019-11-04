@@ -24,14 +24,13 @@ public class LanguagesFrame extends CoreFrame implements ActionListener {
         setLocationRelativeTo(null);
         cButton.addActionListener(this);
         javaButton.addActionListener(this);
-        htmlButton.addActionListener(this);
-        androidButton.addActionListener(this);
 
         try {
             accountDatabase = new AccountDatabase();
             if (currentUserID != null){
                 currentAccount = accountDatabase.retrieveByID(currentUserID);
                 userLabel.setText(String.format("Hello, %s", currentAccount.getUsername()));
+                xpLabel.setText(String.valueOf(currentAccount.getExperiencePoints()));
             }
         } catch (Exception ex){
             JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
@@ -40,10 +39,9 @@ public class LanguagesFrame extends CoreFrame implements ActionListener {
 
     private JPanel rootPanel;
     private JButton cButton;
-    private JButton htmlButton;
     private JButton javaButton;
-    private JButton androidButton;
     private JLabel userLabel;
+    private JLabel xpLabel;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -55,8 +53,6 @@ public class LanguagesFrame extends CoreFrame implements ActionListener {
         String key = "";
         if (e.getSource() == cButton) key = LanguageDatabase.KEY_C_LANGUAGE;
         else if (e.getSource() == javaButton) key = LanguageDatabase.KEY_JAVA_LANGUAGE;
-        else if (e.getSource() == htmlButton) key = LanguageDatabase.KEY_HTML_LANGUAGE;
-        else if (e.getSource() == androidButton) key = LanguageDatabase.KEY_ANDROID_LANGUAGE;
 
         ActivityFrame activityForm = new ActivityFrame(this, currentAccount.getUserID(), key);
         activityForm.invoke();

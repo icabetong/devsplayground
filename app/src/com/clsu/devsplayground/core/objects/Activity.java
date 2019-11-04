@@ -8,15 +8,13 @@ public class Activity {
     private int type;
     private String answers;
 
-    public static final int TYPE_CODING_ACTIVITY = 1;
-    public static final int answersSize = 3;
     private static final String emptyResponse = "_______";
 
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_INSTRUCTION = "instruction";
     public static final String COLUMN_ACTIVITY = "activity";
-    public static final String COLUMN_ANSWER = "answers";
     public static final String COLUMN_TYPE = "type";
-    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_ANSWER = "answers";
 
     public Activity() {  }
 
@@ -91,6 +89,25 @@ public class Activity {
 
     public static String[] convertStringToArray(String s){
         return s.split(separator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != Activity.class)
+            return false;
+
+        Activity activity = (Activity) obj;
+        return activity.getId() == this.getId();
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
     }
 
 }

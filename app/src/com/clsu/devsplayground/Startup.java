@@ -19,7 +19,7 @@ public class Startup {
 
         SQLiteDatabase database = new SQLiteDatabase();
         database.connect();
-        database.executeSQL("CREATE TABLE IF NOT EXISTS users (userID VARCHAR PRIMARY KEY, username VARCHAR NOT NULL)");
+        database.executeSQL("CREATE TABLE IF NOT EXISTS users (userID VARCHAR PRIMARY KEY, username VARCHAR NOT NULL, xp INT)");
         database.endTransaction();
         database.disconnect();
 

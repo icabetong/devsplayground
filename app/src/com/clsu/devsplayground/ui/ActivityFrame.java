@@ -2,6 +2,7 @@ package com.clsu.devsplayground.ui;
 
 import com.clsu.devsplayground.core.Localization;
 import com.clsu.devsplayground.core.components.CoreFrame;
+import com.clsu.devsplayground.core.database.support.AccountDatabase;
 import com.clsu.devsplayground.core.database.support.LanguageDatabase;
 import com.clsu.devsplayground.core.objects.Activity;
 import sas.swing.plaf.MultiLineLabelUI;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,6 +26,7 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
     private int itemsShown = 0;
     private String[] correctResponses;
     private ArrayList<String> responses = new ArrayList<>();
+    private ArrayList<Integer> shownActivityIDs = new ArrayList<>();
     private Activity currentActivity;
 
     private static final int numberOfActivities = 5;
@@ -54,7 +57,7 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
         obtainAssets();
     }
 
-    private void validateResponses(){
+    private void validateResponses() {
 
         ArrayList<String> correctResponsesList = new ArrayList<>(Arrays.asList(correctResponses));
 
@@ -71,10 +74,21 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
                 score--;
                 JOptionPane.showMessageDialog(this, Localization.DIALOG_ACTIVITY_WRONG);
             }
-            if (itemsShown == numberOfActivities){
+            if (itemsShown > numberOfActivities){
+                try {
+                    database.disconnect();
+
+                    AccountDatabase accountDatabase = new AccountDatabase();
+                    accountDatabase.updateXP(userID, score);
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            Localization.TITLE_GENERIC, JOptionPane.ERROR_MESSAGE);
+                }
+                reset();
+
                 CompletedFrame complete = new CompletedFrame(this, userID, subjectKey, score);
                 complete.invoke();
-                reset();
+
                 this.setVisible(false);
             }
         }
@@ -84,9 +98,9 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
         try {
             responses.clear();
 
-            currentActivity = database.getRandom(subjectKey);
-            System.out.println(currentActivity.getId());
-            correctResponses = currentActivity.getAnswerArray();
+            Activity activity = database.getRandom(subjectKey);
+            System.out.println(activity.getId());
+            correctResponses = activity.getAnswerArray();
 
             int answerSize = correctResponses.length;
             LanguageDatabase keywordDatabase = new LanguageDatabase();
@@ -96,20 +110,22 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
             ArrayList<String> responses = new ArrayList<>(6);
             responses.addAll(Arrays.asList(correctResponses));
             responses.addAll(keywordDatabase.generateChoices(subjectKey, answerSize));
+
             Collections.shuffle(responses);
 
-            for (int i = 0; i < buttons.length; i++){
-                buttons[i].setText(responses.get(i));
-            }
+            if (!shownActivityIDs.contains(activity.getId())){
+                itemsShown++;
+                currentActivity = activity;
+                shownActivityIDs.add(activity.getId());
+                setActivityAssets();
 
-            itemsShown++;
-            setActivityAssets();
+                for (int i = 0; i < buttons.length; i++){
+                    buttons[i].setText(responses.get(i));
+                }
+            } else
+                obtainAssets();
         } catch (Exception ex) {
-            ex.printStackTrace();
-
             JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
-            back();
-            this.dispose();
         }
     }
 
@@ -139,11 +155,7 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-
             JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
-            back();
-            this.dispose();
         }
     }
 

@@ -40,8 +40,9 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
             AccountListModel model = new AccountListModel();
             while (userSet.next()){
                 Account account = new Account();
-                account.setUserID(userSet.getString(AccountDatabase.COLUMN_ID));
-                account.setUsername(userSet.getString(AccountDatabase.COLUMN_NAME));
+                account.setUserID(userSet.getString(Account.COLUMN_USER_ID));
+                account.setUsername(userSet.getString(Account.COLUMN_USERNAME));
+                account.setExperiencePoints(userSet.getInt(Account.COLUMN_XP));
                 model.addElement(account);
             }
             mainList.setModel(model);

@@ -4,6 +4,11 @@ public class Account {
 
     private String userID;
     private String username;
+    private int experiencePoints;
+
+    public static final String COLUMN_USER_ID = "userID";
+    public static final String COLUMN_USERNAME = "username";
+    public static final String COLUMN_XP = "xp";
 
     public Account () { }
 
@@ -26,6 +31,14 @@ public class Account {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getExperiencePoints() {
+        return experiencePoints;
+    }
+
+    public void setExperiencePoints(int experiencePoints) {
+        this.experiencePoints = experiencePoints;
     }
 
     @Override
