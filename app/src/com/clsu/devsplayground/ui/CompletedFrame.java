@@ -3,21 +3,22 @@ package com.clsu.devsplayground.ui;
 import com.clsu.devsplayground.core.components.CoreFrame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CompletedFrame extends CoreFrame implements ActionListener {
 
-    private int score;
-    private String subjectKey;
     private String currentUserID;
     private JFrame ancestorFrame;
 
     public CompletedFrame(JFrame ancestorFrame, String currentUserID, String subjectKey, int score){
         super(ancestorFrame);
+        setContentPane(rootPanel);
+        setSize(new Dimension(500, 500));
+        setResizable(false);
+        setLocationRelativeTo(null);
         this.ancestorFrame = ancestorFrame;
-        this.score = score;
-        this.subjectKey = subjectKey;
         this.currentUserID = currentUserID;
 
         mainMenuButton.addActionListener(this);
@@ -42,4 +43,5 @@ public class CompletedFrame extends CoreFrame implements ActionListener {
     private JLabel scoreLabel;
     private JButton mainMenuButton;
     private JButton playAgainButton;
+    private JPanel rootPanel;
 }

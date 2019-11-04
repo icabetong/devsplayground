@@ -15,7 +15,7 @@ public class Startup {
 
         try {
             UIManager.setLookAndFeel(new MaterialLookAndFeel());
-        } catch (Exception e) { }
+        } catch (Exception ignored) { }
 
         SQLiteDatabase database = new SQLiteDatabase();
         database.connect();

@@ -18,4 +18,5 @@ public abstract class Localization {
 
     public static final String DIALOG_ACTIVITY_FINISHED = "Correct.";
     public static final String DIALOG_ACTIVITY_WRONG = "Incorrect. Check Again.";
+
 }

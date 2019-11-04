@@ -21,7 +21,7 @@ public class LanguagesFrame extends CoreFrame implements ActionListener {
         setContentPane(rootPanel);
         setSize(new Dimension(500, 450));
         setResizable(false);
-
+        setLocationRelativeTo(null);
         cButton.addActionListener(this);
         javaButton.addActionListener(this);
         htmlButton.addActionListener(this);

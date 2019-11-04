@@ -5,6 +5,7 @@ public class Activity {
     private int id;
     private String instruction;
     private String activity;
+    private int type;
     private String answers;
 
     public static final int TYPE_CODING_ACTIVITY = 1;
@@ -14,6 +15,7 @@ public class Activity {
     public static final String COLUMN_INSTRUCTION = "instruction";
     public static final String COLUMN_ACTIVITY = "activity";
     public static final String COLUMN_ANSWER = "answers";
+    public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_ID = "id";
 
     public Activity() {  }
@@ -32,6 +34,14 @@ public class Activity {
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getActivity() {

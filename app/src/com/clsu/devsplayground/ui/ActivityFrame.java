@@ -26,21 +26,20 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
     private ArrayList<String> responses = new ArrayList<>();
     private Activity currentActivity;
 
-    private static final int numberOfActivities = 10;
+    private static final int numberOfActivities = 5;
 
     public ActivityFrame(JFrame ancestorFrame, String userID, String subjectKey){
         super(ancestorFrame);
         setContentPane(rootPanel);
         setSize(new Dimension(850, 600));
         setResizable(false);
-
+        setLocationRelativeTo(null);
         this.userID = userID;
         this.subjectKey = subjectKey;
 
         database = new LanguageDatabase();
-        database.connect();
 
-        questionLabel.setUI(MultiLineLabelUI.labelUI);
+        instructionLabel.setUI(MultiLineLabelUI.labelUI);
 
         backButton.addActionListener(this);
         resetButton.addActionListener(this);
@@ -83,10 +82,13 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
 
     private void obtainAssets(){
         try {
+            responses.clear();
+
             currentActivity = database.getRandom(subjectKey);
+            System.out.println(currentActivity.getId());
             correctResponses = currentActivity.getAnswerArray();
 
-            int answerSize = responses.size();
+            int answerSize = correctResponses.length;
             LanguageDatabase keywordDatabase = new LanguageDatabase();
             keywordDatabase.connect(LanguageDatabase.DATABASE_RESERVED);
             JButton[] buttons = { firstButton, secondButton, thirdButton, fourthButton,
@@ -103,7 +105,6 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
             itemsShown++;
             setActivityAssets();
         } catch (Exception ex) {
-            System.out.println(currentActivity.getId());
             ex.printStackTrace();
 
             JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
@@ -115,7 +116,10 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
     private void setActivityAssets() {
         try {
             if (currentActivity != null){
+                scoreLabel.setText(String.valueOf(score));
+                categoryLabel.setText(database.getCategory(LanguageDatabase.determineCategoryKey(subjectKey), currentActivity.getType()));
                 instructionLabel.setText(currentActivity.getInstruction());
+
                 switch (responses.size()){
                     case 0:
                         questionLabel.setText(Activity.formatSnippet(currentActivity.getActivity()));
@@ -212,5 +216,7 @@ public class ActivityFrame extends CoreFrame implements ActionListener {
     private JButton backButton;
     private JButton resetButton;
     private JPanel answerPanel;
+    private JLabel scoreLabel;
+    private JLabel categoryLabel;
 
 }

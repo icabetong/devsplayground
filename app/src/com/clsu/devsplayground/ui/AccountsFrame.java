@@ -20,6 +20,7 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
         super(null);
         setContentPane(rootPanel);
         setSize(500, 350);
+        setLocationRelativeTo(null);
         setResizable(false);
 
         mainList.setFixedCellHeight(35);
@@ -73,7 +74,8 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
             } else
                 JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_NO_SELECTED);
         } else if (e.getSource() == newButton) {
-            String username = JOptionPane.showInputDialog(this, Localization.DIALOG_INPUT_USERNAME);
+            String username = JOptionPane.showInputDialog(this, Localization.DIALOG_INPUT_USERNAME,
+                    Localization.TITLE_NEW_USER, JOptionPane.PLAIN_MESSAGE);
             String randomUserID = UUID.randomUUID().toString();
 
             if (username != null) {
@@ -84,12 +86,14 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
 
                     initialize();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_GENERIC);
+                    JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_GENERIC,
+                            Localization.TITLE_GENERIC, JOptionPane.ERROR_MESSAGE);
                 }
             }
 
         } else if (e.getSource() == editButton) {
-            String username = JOptionPane.showInputDialog(this, Localization.DIALOG_INPUT_NEW_USERNAME);
+            String username = JOptionPane.showInputDialog(this, Localization.DIALOG_INPUT_NEW_USERNAME,
+                    Localization.TITLE_EDIT_USER, JOptionPane.PLAIN_MESSAGE);
             Account currentAccount = mainList.getSelectedValue();
 
             if (currentAccount != null && username != null) {
@@ -99,10 +103,12 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
 
                     initialize();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
+                    JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE,
+                            Localization.TITLE_GENERIC, JOptionPane.ERROR_MESSAGE);
                 }
             } else
-                JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_NO_SELECTED);
+                JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_NO_SELECTED,
+                        Localization.TITLE_GENERIC, JOptionPane.INFORMATION_MESSAGE);
 
         } else if (e.getSource() == deleteButton) {
             Account currentAccount = mainList.getSelectedValue();
@@ -110,8 +116,7 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
             if (currentAccount != null) {
                 int option = JOptionPane.showConfirmDialog(this,
                         String.format(Localization.DIALOG_CONFIRM_DELETE_DESC, currentAccount.getUsername()),
-                        Localization.DIALOG_CONFIRM_DELETE_TITLE,
-                        JOptionPane.OK_CANCEL_OPTION);
+                        Localization.DIALOG_CONFIRM_DELETE_TITLE, JOptionPane.OK_CANCEL_OPTION);
 
                 if (option == JOptionPane.OK_OPTION){
                     try {
@@ -120,11 +125,13 @@ public class AccountsFrame extends CoreFrame implements ActionListener {
 
                         initialize();
                     } catch (Exception ex){
-                        JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE);
+                        JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_ENGINE,
+                                Localization.TITLE_GENERIC, JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else
-                JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_NO_SELECTED);
+                JOptionPane.showMessageDialog(this, Localization.DIALOG_ERROR_NO_SELECTED,
+                        Localization.TITLE_GENERIC, JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

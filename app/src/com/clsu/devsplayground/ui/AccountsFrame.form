@@ -21,17 +21,7 @@
           </grid>
         </constraints>
         <properties>
-          <font name="Slate For OnePlus" size="14"/>
-        </properties>
-      </component>
-      <component id="cf3d" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <enabled value="true"/>
           <font name="Slate For OnePlus"/>
-          <text value="Select an account to continue"/>
         </properties>
       </component>
       <component id="7ede5" class="javax.swing.JButton" binding="continueButton" default-binding="true">
@@ -75,8 +65,18 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <font name="Slate For OnePlus" size="16" style="1"/>
+          <font name="Slate For OnePlus Medium" size="20" style="0"/>
           <text value="Developer's Playground"/>
+        </properties>
+      </component>
+      <component id="cf3d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <font name="Slate For OnePlus" size="14"/>
+          <text value="Select an account to continue"/>
         </properties>
       </component>
     </children>

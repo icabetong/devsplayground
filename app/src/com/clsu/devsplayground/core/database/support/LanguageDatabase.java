@@ -23,15 +23,13 @@ public class LanguageDatabase extends SQLiteDatabase {
     public static final String DATABASE_RESERVED = "reserved";
     public static final String COLUMN_RESERVED = "keyword";
 
-    public LanguageDatabase() { super(); }
-
-    public LanguageDatabase(String subjectKey) {
+    public LanguageDatabase() {
         super();
-        connect(subjectKey);
+        connect();
     }
 
     public ArrayList<String> generateChoices(String lang, int number) throws Exception {
-        String randomString = String.format("SELECT * FROM %s ORDER BY RANDOM() LIMIT %d", lang, 5 - number);
+        String randomString = String.format("SELECT * FROM %s ORDER BY RANDOM() LIMIT %d", lang, 6 - number);
 
         ResultSet resultSet = retrieveResults(randomString);
         ArrayList<String> result = new ArrayList<>();
@@ -41,21 +39,18 @@ public class LanguageDatabase extends SQLiteDatabase {
         return result;
     }
 
-    public ArrayList<Activity> getRandomSet(int amount, String categoryID) throws Exception {
-        String retrievalString = String.format("SELECT * FROM %s ORDER BY RANDOM() LIMIT %d", categoryID, amount);
+    public String getCategory(String subjectKey, int type) throws SQLException {
+        String retrievalString = String.format("SELECT * FROM %s WHERE id = %d", subjectKey, type);
 
         Statement statement = connection.createStatement();
         ResultSet set = statement.executeQuery(retrievalString);
 
-        ArrayList<Activity> activities = new ArrayList<>();
-        while (set.next()){
-            String currentQuestion = set.getString(Activity.COLUMN_ACTIVITY);
-
-            Activity currentActivity = new Activity();
-            currentActivity.setActivity(currentQuestion);
-            activities.add(currentActivity);
+        String desc = "Generic";
+        if (set != null){
+            set.next();
+            desc = set.getString("desc");
         }
-        return activities;
+        return desc;
     }
 
     public Activity getRandom(String subjectKey) throws SQLException {
@@ -69,6 +64,7 @@ public class LanguageDatabase extends SQLiteDatabase {
         currentActivity.setActivity(set.getString(Activity.COLUMN_ACTIVITY));
         currentActivity.setId(set.getInt(Activity.COLUMN_ID));
         currentActivity.setAnswers(set.getString(Activity.COLUMN_ANSWER));
+        currentActivity.setType(set.getInt(Activity.COLUMN_TYPE));
 
         return currentActivity;
     }
